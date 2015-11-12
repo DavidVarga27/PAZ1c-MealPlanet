@@ -14,6 +14,16 @@ public class Recipe {
     
     private int prepTime; // cas na pripravu
 
+    private String steps; //
+
+    public String getSteps() {
+        return steps;
+    }
+
+    public void setSteps(String steps) {
+        this.steps = steps;
+    }
+    
     public long getId() {
         return id;
     }
@@ -52,6 +62,11 @@ public class Recipe {
 
     public void setPrepTime(int prepTime) {
         this.prepTime = prepTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" + "id=" + id + ", name=" + name + ", type=" + type + ", ingredients=" + ingredients + ", prepTime=" + prepTime + ", steps=" + steps + '}';
     }
     
     

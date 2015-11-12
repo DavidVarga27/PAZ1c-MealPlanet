@@ -12,6 +12,15 @@ public class Ingredient {
     private int protein;
     private int fat;
     private int carb;
+    private String amount; 
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
 
     public int getId() {
         return id;
@@ -51,6 +60,11 @@ public class Ingredient {
 
     public void setCarb(int carb) {
         this.carb = carb;
+    }
+
+    @Override
+    public String toString() {
+        return "Ingredient{" + "id=" + id + ", name=" + name + ", protein=" + protein + ", fat=" + fat + ", carb=" + carb + ", amount=" + amount + '}';
     }
 
 }

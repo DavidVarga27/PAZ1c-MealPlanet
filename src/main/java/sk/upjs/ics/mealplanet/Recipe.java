@@ -15,6 +15,16 @@ public class Recipe {
     private int prepTime; // cas na pripravu
 
     private String steps; //
+    
+    private long rating;
+
+    public long getRating() {
+        return rating;
+    }
+
+    public void setRating(long rating) {
+        this.rating = rating;
+    }
 
     public String getSteps() {
         return steps;

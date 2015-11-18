@@ -28,7 +28,7 @@ public class MemoryRecipeDao implements RecipeDao{
     recipe1.setId(1);
     recipe1.setName("apple pie");
     recipe1.setPrepTime(55);
-    recipe1.setType("dessert");
+    recipe1.setType(1);
     recipe1.setSteps("povedz babke nech ti zrobi");
     recipe1.setIngredients(ingredients);
     

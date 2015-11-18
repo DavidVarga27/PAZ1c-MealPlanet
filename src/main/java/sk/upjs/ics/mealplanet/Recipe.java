@@ -8,7 +8,7 @@ public class Recipe {
    
     private String name;
     
-    private String type; // typ, dezert,predjedlo,hlavne jedlo, snack, polievka...
+    private int type; // typ, dezert,predjedlo,hlavne jedlo, snack, polievka...
    
     private List<Ingredient> ingredients; 
     
@@ -50,11 +50,11 @@ public class Recipe {
         this.name = name;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 

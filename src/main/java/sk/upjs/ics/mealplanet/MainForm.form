@@ -41,38 +41,38 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="userLabel" min="-2" max="-2" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="userRatingLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="userRatingNumberLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="addButton" alignment="0" max="32767" attributes="0"/>
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="RatingLabel" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="userRatingNumberLabel" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="userLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="myRecipesButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="340" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="randomButton" max="32767" attributes="0"/>
+                          <Component id="searchTextField" max="32767" attributes="0"/>
+                          <Component id="searchButton" max="32767" attributes="0"/>
+                          <Component id="typeComboBox" pref="144" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="myRecipesButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="headerLabel" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="340" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="randomButton" pref="144" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="searchTextField" max="32767" attributes="0"/>
-                      <Component id="searchButton" max="32767" attributes="0"/>
-                      <Component id="typeComboBox" pref="144" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="headerLabel" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -86,10 +86,12 @@
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="userRatingNumberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="userRatingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="RatingLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="myRecipesButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="addButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
@@ -120,7 +122,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="userLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Username"/>
+        <Property name="text" type="java.lang.String" value="Recipe Name"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -150,7 +152,7 @@
         <Property name="text" type="java.lang.String" value="156"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="userRatingLabel">
+    <Component class="javax.swing.JLabel" name="RatingLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="rating"/>
       </Properties>
@@ -181,6 +183,11 @@
     <Component class="javax.swing.JButton" name="randomButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="I feel lucky"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="addButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Add recipe"/>
       </Properties>
     </Component>
   </SubComponents>

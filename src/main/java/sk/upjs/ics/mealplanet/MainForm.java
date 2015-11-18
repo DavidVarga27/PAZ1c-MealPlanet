@@ -33,12 +33,13 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         foundRecipesList = new javax.swing.JList();
         userRatingNumberLabel = new javax.swing.JLabel();
-        userRatingLabel = new javax.swing.JLabel();
+        RatingLabel = new javax.swing.JLabel();
         myRecipesButton = new javax.swing.JButton();
         searchTextField = new javax.swing.JTextField();
         searchButton = new javax.swing.JButton();
         typeComboBox = new javax.swing.JComboBox();
         randomButton = new javax.swing.JButton();
+        addButton = new javax.swing.JButton();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -55,7 +56,7 @@ public class MainForm extends javax.swing.JFrame {
 
         headerLabel.setText("LOGO");
 
-        userLabel.setText("Username");
+        userLabel.setText("Recipe Name");
 
         foundRecipesList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "recipe 1", "recipe 2", "recipe 3", "recipe 4", "recipe 5" };
@@ -66,7 +67,7 @@ public class MainForm extends javax.swing.JFrame {
 
         userRatingNumberLabel.setText("156");
 
-        userRatingLabel.setText("rating");
+        RatingLabel.setText("rating");
 
         myRecipesButton.setText("My recipes");
 
@@ -76,35 +77,37 @@ public class MainForm extends javax.swing.JFrame {
 
         randomButton.setText("I feel lucky");
 
+        addButton.setText("Add recipe");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(addButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(RatingLabel)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(userRatingNumberLabel))
+                                    .addComponent(userLabel)
+                                    .addComponent(myRecipesButton))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(userLabel)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(userRatingLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(userRatingNumberLabel)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(myRecipesButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(randomButton, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(searchTextField)
-                        .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(typeComboBox, 0, 144, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addComponent(headerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(randomButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(searchTextField)
+                            .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(typeComboBox, 0, 144, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addComponent(headerLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,9 +120,11 @@ public class MainForm extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(userRatingNumberLabel)
-                            .addComponent(userRatingLabel))
+                            .addComponent(RatingLabel))
                         .addGap(18, 18, 18)
                         .addComponent(myRecipesButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(addButton)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,6 +181,8 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel RatingLabel;
+    private javax.swing.JButton addButton;
     private javax.swing.JList foundRecipesList;
     private javax.swing.JLabel headerLabel;
     private javax.swing.JFrame jFrame1;
@@ -186,7 +193,6 @@ public class MainForm extends javax.swing.JFrame {
     private javax.swing.JTextField searchTextField;
     private javax.swing.JComboBox typeComboBox;
     private javax.swing.JLabel userLabel;
-    private javax.swing.JLabel userRatingLabel;
     private javax.swing.JLabel userRatingNumberLabel;
     // End of variables declaration//GEN-END:variables
 }

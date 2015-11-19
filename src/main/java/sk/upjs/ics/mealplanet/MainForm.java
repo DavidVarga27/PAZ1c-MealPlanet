@@ -5,15 +5,17 @@
  */
 package sk.upjs.ics.mealplanet;
 
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DaviD
  */
 public class MainForm extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainForm
-     */
+    private RecipeDao recipeDao = RecipeDaoFactory.INSTANCE.getRecipeDao();
+    
     public MainForm() {
         initComponents();
     }
@@ -70,10 +72,25 @@ public class MainForm extends javax.swing.JFrame {
         RatingLabel.setText("rating");
 
         myRecipesButton.setText("My recipes");
+        myRecipesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                myRecipesButtonActionPerformed(evt);
+            }
+        });
 
         searchButton.setText("Search");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         typeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "dessert", "appetizer", "main course" }));
+        typeComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeComboBoxActionPerformed(evt);
+            }
+        });
 
         randomButton.setText("I feel lucky");
 
@@ -143,12 +160,33 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void myRecipesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myRecipesButtonActionPerformed
+       List<Recipe> myRecipes = recipeDao.getAll();
+        foundRecipesList.setListData(myRecipes.toArray());
+    }//GEN-LAST:event_myRecipesButtonActionPerformed
+
+    
+    private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
+        
+    }//GEN-LAST:event_typeComboBoxActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+       String searchedName = searchTextField.getText();
+       
+        List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName);
+         foundRecipesList.setListData(matchingRecipes.toArray());
+    }//GEN-LAST:event_searchButtonActionPerformed
+    
+    private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {                                       
+        if(evt.getClickCount()==2){
+            JOptionPane.showMessageDialog(this, "patkan");
+            return;
+    }
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       MemoryRecipeDao doKonzoly= new MemoryRecipeDao();
-        System.out.println(doKonzoly.toString());
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.

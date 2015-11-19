@@ -2,6 +2,8 @@ package sk.upjs.ics.mealplanet;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.util.List;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 public class MySqlRecipeDao implements RecipeDao{
 
@@ -30,4 +32,20 @@ public class MySqlRecipeDao implements RecipeDao{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    public List<Recipe> getAll() {
+        String sql = "SELECT distinct name FROM recipes";
+        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
+        return jdbcTemplate.query(sql, mapper);//ak mam v databaze rovnake meno tych parametrov ako tu v tomto projekte tak mi to vyberie z databazy data tu do Listu
+    }
+    
+    @Override
+    public List<Recipe> getMatching(String name) {
+       String sql = "SELECT distinct name FROM recipes WHERE name = ? ";
+        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
+        
+        return jdbcTemplate.query(sql, mapper,name);
+    }
+
+   
+
 }

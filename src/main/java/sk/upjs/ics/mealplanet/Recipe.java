@@ -10,7 +10,7 @@ public class Recipe {
     
     private int type; // typ, dezert,predjedlo,hlavne jedlo, snack, polievka...
    
-    private List<Ingredient> ingredients; 
+    private int ingredient; 
     
     private int prepTime; // cas na pripravu
 
@@ -58,12 +58,13 @@ public class Recipe {
         this.type = type;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public int getIngredient() {
+        return ingredient;
     }
+    
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setIngredient(int ingredient) {
+        this.ingredient = ingredient;
     }
 
     public int getPrepTime() {

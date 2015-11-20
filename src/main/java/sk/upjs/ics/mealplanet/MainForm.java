@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 public class MainForm extends javax.swing.JFrame {
 
     private RecipeDao recipeDao = RecipeDaoFactory.INSTANCE.getRecipeDao();
-    
+
     public MainForm() {
         initComponents();
     }
@@ -64,6 +64,11 @@ public class MainForm extends javax.swing.JFrame {
             String[] strings = { "recipe 1", "recipe 2", "recipe 3", "recipe 4", "recipe 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
+        });
+        foundRecipesList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                foundRecipesListMouseClicked(evt);
+            }
         });
         jScrollPane1.setViewportView(foundRecipesList);
 
@@ -161,28 +166,30 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myRecipesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myRecipesButtonActionPerformed
-       List<Recipe> myRecipes = recipeDao.getAll();
+        List<Recipe> myRecipes = recipeDao.getAll();
         foundRecipesList.setListData(myRecipes.toArray());
     }//GEN-LAST:event_myRecipesButtonActionPerformed
 
-    
+
     private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
-        
+
     }//GEN-LAST:event_typeComboBoxActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-       String searchedName = searchTextField.getText();
-       
+        String searchedName = searchTextField.getText();
+
         List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName);
-         foundRecipesList.setListData(matchingRecipes.toArray());
+        /////vrati list receptov, ale nevyplni ingredients
+        foundRecipesList.setListData(matchingRecipes.toArray());
     }//GEN-LAST:event_searchButtonActionPerformed
-    
-    private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {                                       
-        if(evt.getClickCount()==2){
+
+    private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foundRecipesListMouseClicked
+        if (evt.getClickCount() == 2) {
             JOptionPane.showMessageDialog(this, "patkan");
             return;
-    }
-    }
+        }
+    }//GEN-LAST:event_foundRecipesListMouseClicked
+
     /**
      * @param args the command line arguments
      */

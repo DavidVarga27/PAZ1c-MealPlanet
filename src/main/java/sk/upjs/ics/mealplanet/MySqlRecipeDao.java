@@ -59,7 +59,7 @@ public class MySqlRecipeDao implements RecipeDao {
             List<Integer> ingredients = new ArrayList<>();
             for (Recipe ingRecipe : ingred) {
                 ingredients.add(ingRecipe.getIngredient());
-                
+
             }
 
             oneRecipe.setIngredients(ingredients);
@@ -71,10 +71,15 @@ public class MySqlRecipeDao implements RecipeDao {
 
     @Override
     public List<Recipe> getMatching(String name) {
-        String sql = "SELECT * FROM recipes WHERE name = ? ";
-        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
+        List<Recipe> allRecipes = this.getAll();
+        List<Recipe> matchingRecipes = new ArrayList<>();
+        for (Recipe matchingRecipe : allRecipes) {
+            if (name.equals(matchingRecipe.getName())) {
+                matchingRecipes.add(matchingRecipe);
+            }
+        }
 
-        return jdbcTemplate.query(sql, mapper, name);
+        return matchingRecipes;
     }
 
 }

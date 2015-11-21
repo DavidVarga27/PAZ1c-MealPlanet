@@ -2,7 +2,7 @@ package sk.upjs.ics.mealplanet;
 
 import java.util.List;
 
-public class Recipe {
+public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienciou
 
     private long id;
    
@@ -12,12 +12,24 @@ public class Recipe {
    
     private int ingredient; 
     
+    private List<Integer> ingredients; 
+    
     private int prepTime; // cas na pripravu
 
     private String steps; //
     
     private long rating;
 
+    public List<Integer> getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(List<Integer> ingredients) {
+        this.ingredients = ingredients;
+    }
+
+    
+    
     public long getRating() {
         return rating;
     }

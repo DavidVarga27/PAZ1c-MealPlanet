@@ -60,11 +60,6 @@ public class MainForm extends javax.swing.JFrame {
 
         userLabel.setText("Recipe Name");
 
-        foundRecipesList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "recipe 1", "recipe 2", "recipe 3", "recipe 4", "recipe 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         foundRecipesList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 foundRecipesListMouseClicked(evt);

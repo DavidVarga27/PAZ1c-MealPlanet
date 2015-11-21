@@ -74,7 +74,7 @@ public class MySqlRecipeDao implements RecipeDao {
         List<Recipe> allRecipes = this.getAll();
         List<Recipe> matchingRecipes = new ArrayList<>();
         for (Recipe matchingRecipe : allRecipes) {
-            if (name.equals(matchingRecipe.getName())) {
+            if (matchingRecipe.getName().toLowerCase().contains(name.toLowerCase())) {
                 matchingRecipes.add(matchingRecipe);
             }
         }

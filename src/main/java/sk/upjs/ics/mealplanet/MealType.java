@@ -1,6 +1,6 @@
 package sk.upjs.ics.mealplanet;
 
-public class Type {
+public class MealType {
    private int id;
    private String name;
 
@@ -19,5 +19,5 @@ public class Type {
     public void setName(String name) {
         this.name = name;
     }
-   
+ 
 }

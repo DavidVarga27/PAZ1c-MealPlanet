@@ -47,9 +47,7 @@ public class MySqlRecipeDao implements RecipeDao {
             if (!idArray.contains(oneRecipe.getId())) {
                 idArray.add(oneRecipe.getId());
                 newRecipes.add(oneRecipe);
-
             }
-
         }
         for (Recipe oneRecipe : newRecipes) {
             Long id = oneRecipe.getId();
@@ -59,18 +57,14 @@ public class MySqlRecipeDao implements RecipeDao {
             List<Integer> ingredients = new ArrayList<>();
             for (Recipe ingRecipe : ingred) {
                 ingredients.add(ingRecipe.getIngredient());
-
             }
-
             oneRecipe.setIngredients(ingredients);
-
         }
-
         return newRecipes;//ak mam v databaze rovnake meno tych parametrov ako tu v tomto projekte tak mi to vyberie z databazy data tu do Listu
     }
 
     @Override
-    public List<Recipe> getMatching(String name) {
+    public List<Recipe> getMatchingName(String name) {
         List<Recipe> allRecipes = this.getAll();
         List<Recipe> matchingRecipes = new ArrayList<>();
         for (Recipe matchingRecipe : allRecipes) {
@@ -79,6 +73,27 @@ public class MySqlRecipeDao implements RecipeDao {
             }
         }
 
+        return matchingRecipes;
+    }
+
+    /* @Override
+     public List<Type> getAllTypes() {
+     String sql = "SELECT * FROM type";
+     BeanPropertyRowMapper<Type> mapper = BeanPropertyRowMapper.newInstance(Type.class);//tovaren
+     return jdbcTemplate.query(sql, mapper);
+     } */
+    @Override
+    public List<Recipe> getMatching(String name, int mealType) {
+        if (mealType == 0) {
+            return this.getMatchingName(name);
+        }
+        List<Recipe> matchingRecipes = new ArrayList<>();
+
+        for (Recipe matchingRecipe : this.getMatchingName(name)) {
+            if (matchingRecipe.getType() == mealType) {
+                matchingRecipes.add(matchingRecipe);
+            }
+        }
         return matchingRecipes;
     }
 

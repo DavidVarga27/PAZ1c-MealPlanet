@@ -12,5 +12,8 @@ public interface RecipeDao {
 
     public List<Recipe> getAll();
     
-    public List<Recipe> getMatching(String name);
+    public List<Recipe> getMatchingName(String name);
+    
+    public List<Recipe> getMatching(String name,int mealType);
+    
 }

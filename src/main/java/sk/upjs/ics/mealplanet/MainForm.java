@@ -5,6 +5,7 @@
  */
 package sk.upjs.ics.mealplanet;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -15,9 +16,39 @@ import javax.swing.JOptionPane;
 public class MainForm extends javax.swing.JFrame {
 
     private RecipeDao recipeDao = RecipeDaoFactory.INSTANCE.getRecipeDao();
+    private List<MealType> mealTypes = new ArrayList<>();
 
     public MainForm() {
         initComponents();
+
+        for (int i = 0; i <= 6; i++) {
+            MealType mealType = new MealType();
+            mealType.setId(i);
+            if (i == 0) {
+                mealType.setName("---meal types---");
+            }
+            if (i == 1) {
+                mealType.setName("appetizer");
+            }
+            if (i == 2) {
+                mealType.setName("soup");
+            }
+            if (i == 3) {
+                mealType.setName("main course");
+            }
+            if (i == 4) {
+                mealType.setName("dessert");
+            }
+            if (i == 5) {
+                mealType.setName("snack");
+            }
+            if (i == 6) {
+                mealType.setName("other");
+            }
+            mealTypes.add(mealType);
+            typeComboBox.addItem(mealType.getName());
+        }
+
     }
 
     /**
@@ -85,7 +116,6 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        typeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "dessert", "appetizer", "main course" }));
         typeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeComboBoxActionPerformed(evt);
@@ -172,10 +202,16 @@ public class MainForm extends javax.swing.JFrame {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String searchedName = searchTextField.getText();
-
-        List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName);
+        int type=0;
+        for (MealType mealType : mealTypes) {
+            if (mealType.getName().equals(typeComboBox.getSelectedItem())) {
+                type=mealType.getId();
+            }
+        }
+       List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName,type);
         /////vrati list receptov, ale nevyplni ingredients
         foundRecipesList.setListData(matchingRecipes.toArray());
+
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foundRecipesListMouseClicked
@@ -216,6 +252,7 @@ public class MainForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainForm().setVisible(true);
+
             }
         });
     }

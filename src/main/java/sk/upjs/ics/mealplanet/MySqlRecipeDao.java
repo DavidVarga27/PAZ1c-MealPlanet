@@ -39,7 +39,7 @@ public class MySqlRecipeDao implements RecipeDao {
 
         String sql = "SELECT * FROM recipes";
         BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
-        List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
+        List<Recipe> recipes = jdbcTemplate.query(sql, mapper);// recepty tak ako v databaze
         List<Recipe> newRecipes = new ArrayList<>();
         List<Long> idArray = new ArrayList<>();//id receptu ale uz sa neopakuje
         for (Recipe oneRecipe : recipes) {
@@ -53,7 +53,8 @@ public class MySqlRecipeDao implements RecipeDao {
             Long id = oneRecipe.getId();
             String ingr = "SELECT * FROM recipes WHERE id = ? ";
             BeanPropertyRowMapper<Recipe> mapper2 = BeanPropertyRowMapper.newInstance(Recipe.class);
-            List<Recipe> ingred = jdbcTemplate.query(ingr, mapper2, id);
+            List<Recipe> ingred = jdbcTemplate.query(ingr, mapper2, id);//zoznam receptova ale sa vola ingred
+            
             List<Integer> ingredients = new ArrayList<>();
             for (Recipe ingRecipe : ingred) {
                 ingredients.add(ingRecipe.getIngredient());

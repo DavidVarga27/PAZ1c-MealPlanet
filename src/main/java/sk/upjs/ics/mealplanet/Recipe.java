@@ -9,7 +9,9 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
     private String name;
     
     private int type; // typ, dezert,predjedlo,hlavne jedlo, snack, polievka...
-   
+    
+    private String amount;
+    
     private int ingredient; 
     
     private List<Integer> ingredients; 
@@ -19,6 +21,16 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
     private String steps; //
     
     private long rating;
+    
+   
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
 
     public List<Integer> getIngredients() {
         return ingredients;

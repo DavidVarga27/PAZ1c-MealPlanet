@@ -6,7 +6,9 @@
 package sk.upjs.ics.mealplanet;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,13 +16,13 @@ import javax.swing.JOptionPane;
  * @author DaviD
  */
 public class MainForm extends javax.swing.JFrame {
-
+    
     private RecipeDao recipeDao = RecipeDaoFactory.INSTANCE.getRecipeDao();
     private List<MealType> mealTypes = new ArrayList<>();
-
+    
     public MainForm() {
         initComponents();
-
+        
         for (int i = 0; i <= 6; i++) {
             MealType mealType = new MealType();
             mealType.setId(i);
@@ -48,7 +50,7 @@ public class MainForm extends javax.swing.JFrame {
             mealTypes.add(mealType);
             typeComboBox.addItem(mealType.getName());
         }
-
+        
     }
 
     /**
@@ -123,6 +125,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         randomButton.setText("I feel lucky");
+        randomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                randomButtonActionPerformed(evt);
+            }
+        });
 
         addButton.setText("Add recipe");
 
@@ -191,24 +198,24 @@ public class MainForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myRecipesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myRecipesButtonActionPerformed
-        List<Recipe> myRecipes = recipeDao.getAll();
+        List<Recipe> myRecipes = recipeDao.getAll(); //pekne vracia recepty po jednom ne jak v databaze
         foundRecipesList.setListData(myRecipes.toArray());
     }//GEN-LAST:event_myRecipesButtonActionPerformed
-
+    
 
     private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
-
+        
     }//GEN-LAST:event_typeComboBoxActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String searchedName = searchTextField.getText();
-        int type=0;
+        int type = 0;
         for (MealType mealType : mealTypes) {
             if (mealType.getName().equals(typeComboBox.getSelectedItem())) {
-                type=mealType.getId();
+                type = mealType.getId();
             }
         }
-       List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName,type);
+        List<Recipe> matchingRecipes = recipeDao.getMatching(searchedName, type);
         /////vrati list receptov, ale nevyplni ingredients
         foundRecipesList.setListData(matchingRecipes.toArray());
 
@@ -220,6 +227,16 @@ public class MainForm extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_foundRecipesListMouseClicked
+
+    private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
+        List<Recipe> myRecipes = recipeDao.getAll();
+        List<Recipe> onlyOne = new ArrayList<>();  
+        System.out.println("");
+        int randomNumber = (int) (Math.random() * myRecipes.size()); 
+        onlyOne.add(myRecipes.get(randomNumber));
+        foundRecipesList.setListData(onlyOne.toArray());
+        
+    }//GEN-LAST:event_randomButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +269,7 @@ public class MainForm extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new MainForm().setVisible(true);
-
+                
             }
         });
     }

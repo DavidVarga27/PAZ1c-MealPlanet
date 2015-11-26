@@ -1,15 +1,15 @@
 package sk.upjs.ics.mealplanet;
 
 public class MealType {
-   private int id;
+   private int idT;
    private String name;
 
-    public int getId() {
-        return id;
+    public int getIdT() {
+        return idT;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdT(int id) {
+        this.idT = id;
     }
 
     public String getName() {

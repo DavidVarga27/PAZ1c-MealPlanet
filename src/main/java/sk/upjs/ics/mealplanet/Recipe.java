@@ -1,47 +1,45 @@
 package sk.upjs.ics.mealplanet;
 
 import java.util.List;
+import java.util.Map;
 
 public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienciou
 
-    private long id;
+    private long idR;
    
     private String name;
     
     private int type; // typ, dezert,predjedlo,hlavne jedlo, snack, polievka...
     
-    private String amount;
+    private MealType mealtype;
     
-    private int ingredient; 
-    
-    private List<Integer> ingredients; 
-    
+    private List<Ingredient> ingredients; 
+        
     private int prepTime; // cas na pripravu
 
     private String steps; //
     
     private long rating;
+
+    public MealType getMealtype() {
+        return mealtype;
+    }
+
+    public void setMealtype(MealType mealtype) {
+        this.mealtype = mealtype;
+    }
+
     
-   
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
-    }
-
-    public List<Integer> getIngredients() {
+    
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Integer> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
+    
 
-    
-    
     public long getRating() {
         return rating;
     }
@@ -58,12 +56,12 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
         this.steps = steps;
     }
     
-    public long getId() {
-        return id;
+    public long getIdR() {
+        return idR;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setIdR(long idR) {
+        this.idR = idR;
     }
 
     public String getName() {
@@ -80,15 +78,6 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
 
     public void setType(int type) {
         this.type = type;
-    }
-
-    public int getIngredient() {
-        return ingredient;
-    }
-    
-
-    public void setIngredient(int ingredient) {
-        this.ingredient = ingredient;
     }
 
     public int getPrepTime() {

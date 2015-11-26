@@ -40,28 +40,15 @@ public class MySqlRecipeDao implements RecipeDao {
         String sql = "SELECT * FROM recipes";
         BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
         List<Recipe> recipes = jdbcTemplate.query(sql, mapper);// recepty tak ako v databaze
-        List<Recipe> newRecipes = new ArrayList<>();
-        List<Long> idArray = new ArrayList<>();//id receptu ale uz sa neopakuje
-        for (Recipe oneRecipe : recipes) {
-            oneRecipe.setIngredient(-1);
-            if (!idArray.contains(oneRecipe.getId())) {
-                idArray.add(oneRecipe.getId());
-                newRecipes.add(oneRecipe);
-            }
-        }
-        for (Recipe oneRecipe : newRecipes) {
-            Long id = oneRecipe.getId();
-            String ingr = "SELECT * FROM recipes WHERE id = ? ";
-            BeanPropertyRowMapper<Recipe> mapper2 = BeanPropertyRowMapper.newInstance(Recipe.class);
-            List<Recipe> ingred = jdbcTemplate.query(ingr, mapper2, id);//zoznam receptova ale sa vola ingred
-            
-            List<Integer> ingredients = new ArrayList<>();
-            for (Recipe ingRecipe : ingred) {
-                ingredients.add(ingRecipe.getIngredient());
-            }
-            oneRecipe.setIngredients(ingredients);
-        }
-        return newRecipes;//ak mam v databaze rovnake meno tych parametrov ako tu v tomto projekte tak mi to vyberie z databazy data tu do Listu
+        
+         for (Recipe recipe : recipes){
+         String sql2 = "SELECT * FROM mealtypes where idT = ?";
+         BeanPropertyRowMapper<MealType> mapper2 = BeanPropertyRowMapper.newInstance(MealType.class);
+         List<MealType> mealType = jdbcTemplate.query(sql2, mapper2,recipe.getType());
+         recipe.setMealtype(mealType.get(0));
+         }
+        
+        return recipes;//ak mam v databaze rovnake meno tych parametrov ako tu v tomto projekte tak mi to vyberie z databazy data tu do Listu
     }
 
     @Override

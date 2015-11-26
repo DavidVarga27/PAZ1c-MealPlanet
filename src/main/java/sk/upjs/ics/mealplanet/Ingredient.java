@@ -7,19 +7,19 @@ package sk.upjs.ics.mealplanet;
 
 public class Ingredient {
 
-    private int id;
+    private int idI;
     private String name;
     private int protein;
     private int fat;
     private int carb;
     
      
-    public int getId() {
-        return id;
+    public int getIdI() {
+        return idI;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdI(int idI) {
+        this.idI = idI;
     }
 
     public String getName() {
@@ -53,10 +53,4 @@ public class Ingredient {
     public void setCarb(int carb) {
         this.carb = carb;
     }
-
-    @Override
-    public String toString() {
-        return "Ingredient{" + "id=" + id + ", name=" + name + ", protein=" + protein + ", fat=" + fat + ", carb=" + carb + '}';
-    }
-
 }

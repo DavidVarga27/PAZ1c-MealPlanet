@@ -41,6 +41,7 @@ public class MainForm extends javax.swing.JFrame {
             }
             mealTypes.add(mealType);
             typeComboBox.addItem(mealType.getName());
+            
         }
         
     }
@@ -119,6 +120,11 @@ public class MainForm extends javax.swing.JFrame {
         });
 
         addButton.setText("Add recipe");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -218,12 +224,17 @@ public class MainForm extends javax.swing.JFrame {
     private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
         List<Recipe> myRecipes = recipeDao.getAll();
         List<Recipe> onlyOne = new ArrayList<>();  
-        System.out.println("");
         int randomNumber = (int) (Math.random() * myRecipes.size()); 
         onlyOne.add(myRecipes.get(randomNumber));
         foundRecipesList.setListData(onlyOne.toArray());
         
     }//GEN-LAST:event_randomButtonActionPerformed
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+       AddForm addForm= new AddForm();
+       addForm.setVisible(true);
+       addForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_addButtonActionPerformed
 
 
     public static void main(String args[]) {

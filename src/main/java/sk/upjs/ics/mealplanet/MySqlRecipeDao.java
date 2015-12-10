@@ -22,7 +22,8 @@ public class MySqlRecipeDao implements RecipeDao {
 
     @Override
     public void add(Recipe recipe) {
-
+        String sql ="INSERT INTO recipes VALUES(?,?,?,?,?,?)";
+        jdbcTemplate.update(sql,recipe.getIdR(),recipe.getName(),recipe.getPrepTime(),recipe.getSteps(),recipe.getRating(),recipe.getType());
     }
 
     @Override
@@ -35,19 +36,25 @@ public class MySqlRecipeDao implements RecipeDao {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<Recipe> getAll() {
+    @Override
+    public List<Recipe> getAll() {//metoda, ktora z databazy vrati zoznam receptov
 
         String sql = "SELECT * FROM recipes";
-        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren
+        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren pre rowmapper
         List<Recipe> recipes = jdbcTemplate.query(sql, mapper);// recepty tak ako v databaze
-        
-         for (Recipe recipe : recipes){
-         String sql2 = "SELECT * FROM mealtypes where idT = ?";
-         BeanPropertyRowMapper<MealType> mapper2 = BeanPropertyRowMapper.newInstance(MealType.class);
-         List<MealType> mealType = jdbcTemplate.query(sql2, mapper2,recipe.getType());
-         recipe.setMealtype(mealType.get(0));
-         }
-        
+
+        for (Recipe recipe : recipes) {
+            String sql2 = "SELECT * FROM mealtypes where idT = ?";
+            BeanPropertyRowMapper<MealType> mapper2 = BeanPropertyRowMapper.newInstance(MealType.class);
+            List<MealType> mealType = jdbcTemplate.query(sql2, mapper2, recipe.getType());
+            recipe.setMealtype(mealType.get(0));
+            String sql3 = "select ingredients.idI,ingredients.name,ingredients.protein,ingredients.fat,ingredients.carb from ingredients \n"
+                    + "join relations on ingredients.idI=relations.idI\n"
+                    + "join recipes on recipes.idr=relations.idr where recipes.idr=?;";
+            BeanPropertyRowMapper<Ingredient> mapper3 = BeanPropertyRowMapper.newInstance(Ingredient.class);
+            List<Ingredient> ingredients = jdbcTemplate.query(sql3, mapper3, recipe.getIdR());
+            recipe.setIngredients(ingredients);
+        }
         return recipes;//ak mam v databaze rovnake meno tych parametrov ako tu v tomto projekte tak mi to vyberie z databazy data tu do Listu
     }
 
@@ -64,12 +71,6 @@ public class MySqlRecipeDao implements RecipeDao {
         return matchingRecipes;
     }
 
-    /* @Override
-     public List<Type> getAllTypes() {
-     String sql = "SELECT * FROM type";
-     BeanPropertyRowMapper<Type> mapper = BeanPropertyRowMapper.newInstance(Type.class);//tovaren
-     return jdbcTemplate.query(sql, mapper);
-     } */
     @Override
     public List<Recipe> getMatching(String name, int mealType) {
         if (mealType == 0) {

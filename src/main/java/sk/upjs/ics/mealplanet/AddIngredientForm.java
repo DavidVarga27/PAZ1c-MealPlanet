@@ -1,10 +1,14 @@
 package sk.upjs.ics.mealplanet;
 
+import javax.swing.JOptionPane;
+
 public class AddIngredientForm extends javax.swing.JFrame {
 
-  public AddIngredientForm() {
+    private IngredientDao ingredientDao = IngredientDaoFactory.INSTANCE.getIngredientDao();
+
+    public AddIngredientForm() {
         initComponents();
-  }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -38,6 +42,11 @@ public class AddIngredientForm extends javax.swing.JFrame {
         carbLabel.setText("Carbohydrates :");
 
         addIngredientButton.setText("Add New Ingredient");
+        addIngredientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addIngredientButtonActionPerformed(evt);
+            }
+        });
 
         infoLabel.setFont(new java.awt.Font("Tahoma", 2, 13)); // NOI18N
         infoLabel.setText("<html>Note: Please fill all fields. In nutrition fields, use format \"grams per 100 grams\"  .</html>");
@@ -98,6 +107,20 @@ public class AddIngredientForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addIngredientButtonActionPerformed
+        Ingredient ingredient = new Ingredient();
+        ingredient.setName(nameTextField.getText());
+        ingredient.setProtein((int) proteinSpinner.getValue());
+        ingredient.setFat((int) fatSpinner.getValue());
+        ingredient.setCarb((int) carbSpinner.getValue());
+
+        ingredientDao.addIngredient(ingredient);
+
+        JOptionPane.showMessageDialog(this, "You have successfully added a new ingredient!");
+
+        this.setVisible(false);
+    }//GEN-LAST:event_addIngredientButtonActionPerformed
 
     /**
      * @param args the command line arguments

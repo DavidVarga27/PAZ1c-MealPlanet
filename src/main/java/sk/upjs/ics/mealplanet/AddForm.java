@@ -300,7 +300,7 @@ public class AddForm extends javax.swing.JFrame {
 
         BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren pre rowmapper
         List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
-
+///////////////////toto treba dat do nejakeho MySql triedy, ale neviem ktorej asi do Mysqlrecipedao
         Recipe recipe = new Recipe();
         String name = recipeNameTextField.getText();
         int prepTime = (int) prepTimeSpinner.getValue();

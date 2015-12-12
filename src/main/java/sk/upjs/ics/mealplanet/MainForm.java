@@ -105,12 +105,6 @@ public class MainForm extends javax.swing.JFrame {
             }
         });
 
-        typeComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                typeComboBoxActionPerformed(evt);
-            }
-        });
-
         randomButton.setText("I feel lucky");
         randomButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -200,10 +194,6 @@ public class MainForm extends javax.swing.JFrame {
     }//GEN-LAST:event_myRecipesButtonActionPerformed
 
 
-    private void typeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeComboBoxActionPerformed
-
-    }//GEN-LAST:event_typeComboBoxActionPerformed
-
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         String searchedName = searchTextField.getText();
         int type = 0;
@@ -220,6 +210,7 @@ public class MainForm extends javax.swing.JFrame {
 
     private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foundRecipesListMouseClicked
         if (evt.getClickCount() == 2) {
+            ////////////tu treba naprogramovat ze sa zobrazi detail receptu
             JOptionPane.showMessageDialog(this, "patkan");
             return;
         }

@@ -55,8 +55,8 @@
                                                   <Group type="103" groupAlignment="0" attributes="0">
                                                       <Component id="ingredientComboBox" max="32767" attributes="0"/>
                                                       <Group type="102" attributes="0">
-                                                          <Component id="prepTimeSpinner" min="-2" max="-2" attributes="0"/>
-                                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                          <Component id="prepTimeSpinner" min="-2" pref="59" max="-2" attributes="0"/>
+                                                          <EmptySpace max="-2" attributes="0"/>
                                                           <Component id="minutesLabel" min="-2" max="-2" attributes="0"/>
                                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                                       </Group>
@@ -200,20 +200,13 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="ingredientComboBoxMouseClicked"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="amountTextField">
       <Properties>
         <Property name="text" type="java.lang.String" value="amount"/>
       </Properties>
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="amountTextFieldMouseClicked"/>
-        <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="amountTextFieldMouseEntered"/>
         <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="amountTextFieldFocusGained"/>
-        <EventHandler event="caretPositionChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="amountTextFieldCaretPositionChanged"/>
-        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="amountTextFieldKeyPressed"/>
       </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

@@ -20,14 +20,17 @@ public class AddForm extends javax.swing.JFrame {
     private JdbcTemplate jdbcTemplate;
     private List<String> addedIngredientsNames = new ArrayList<String>();//na pracu s vybratymi ingredienciami v jListe
     private List<Relation> relations = new ArrayList<>();
-    
+    private String text;
+
     public AddForm() {
+
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost/mealplanet");
         dataSource.setUser("root");
         dataSource.setPassword("271294");
         jdbcTemplate = new JdbcTemplate(dataSource);
         initComponents();
+        text = amountTextField.getText();
         for (int i = 0; i <= 6; i++) {
             MealType mealType = new MealType();
             mealType.setIdT(i);
@@ -110,36 +113,10 @@ public class AddForm extends javax.swing.JFrame {
 
         jLabel1.setText("Ingredients:");
 
-        ingredientComboBox.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                ingredientComboBoxMouseClicked(evt);
-            }
-        });
-
         amountTextField.setText("amount");
-        amountTextField.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                amountTextFieldMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                amountTextFieldMouseEntered(evt);
-            }
-        });
         amountTextField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 amountTextFieldFocusGained(evt);
-            }
-        });
-        amountTextField.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-                amountTextFieldCaretPositionChanged(evt);
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-            }
-        });
-        amountTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                amountTextFieldKeyPressed(evt);
             }
         });
 
@@ -199,8 +176,8 @@ public class AddForm extends javax.swing.JFrame {
                                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                         .addComponent(ingredientComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                         .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(prepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addGap(18, 18, 18)
+                                                            .addComponent(prepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                             .addComponent(minutesLabel)
                                                             .addGap(0, 0, Short.MAX_VALUE))))
                                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -275,27 +252,6 @@ public class AddForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void amountTextFieldMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_amountTextFieldMouseClicked
-        amountTextField.setText(null);
-        // TODO add your handling code here:
-    }//GEN-LAST:event_amountTextFieldMouseClicked
-
-    private void ingredientComboBoxMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ingredientComboBoxMouseClicked
-
-    }//GEN-LAST:event_ingredientComboBoxMouseClicked
-
-    private void amountTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_amountTextFieldKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_amountTextFieldKeyPressed
-
-    private void amountTextFieldMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_amountTextFieldMouseEntered
-
-    }//GEN-LAST:event_amountTextFieldMouseEntered
-
-    private void amountTextFieldCaretPositionChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_amountTextFieldCaretPositionChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_amountTextFieldCaretPositionChanged
-
     private void amountTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountTextFieldFocusGained
         amountTextField.setText(null);
     }//GEN-LAST:event_amountTextFieldFocusGained
@@ -329,28 +285,39 @@ public class AddForm extends javax.swing.JFrame {
     }//GEN-LAST:event_deleteIngredientButtonActionPerformed
 
     private void addRecipeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecipeButtonActionPerformed
-        String sql = "select max(idr) from recipes;";
-        
-        BeanPropertyRowMapper<Long> mapper = BeanPropertyRowMapper.newInstance(Long.class);
-        List<Long>  maxIdR = jdbcTemplate.query(sql, mapper);
-        
+        String sql = "select * from recipes where idr >= all (select max(idr) from recipes)";
+
+        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren pre rowmapper
+        List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
+
         Recipe recipe = new Recipe();
         String name = recipeNameTextField.getText();
         int prepTime = (int) prepTimeSpinner.getValue();
         String steps = stepsTextField.getText();
         int rating = ratingSlider.getValue();
         int type = mealtypeComboBox.getSelectedIndex();
+        long newIdr = recipes.get(0).getIdR() + 1;
 
         recipe.setName(name);
         recipe.setSteps(steps);
         recipe.setRating(rating);
         recipe.setPrepTime(prepTime);
         recipe.setType(type);
-        recipe.setIdR(maxIdR.get(0));
-        
-        recipeDao.add(recipe);
-        
-        
+        recipe.setIdR(newIdr);
+
+        recipeDao.add(recipe);/// pridanie receptu
+
+        for (Ingredient ingredient : addedIngredients.keySet()) {
+            Relation relation = new Relation();
+            relation.setAmount(addedIngredients.get(ingredient));
+            relation.setIdI(ingredient.getIdI());
+            relation.setIdR(newIdr);
+
+            RelationDao relationDao = RelationDaoFactory.INSTANCE.getRelationDao();
+            relationDao.addRelation(relation);
+        }
+
+
     }//GEN-LAST:event_addRecipeButtonActionPerformed
 
     public static void main(String args[]) {

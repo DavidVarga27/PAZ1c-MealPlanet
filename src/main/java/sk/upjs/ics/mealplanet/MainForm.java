@@ -215,7 +215,10 @@ public class MainForm extends javax.swing.JFrame {
             return;
         }
     }//GEN-LAST:event_foundRecipesListMouseClicked
-
+/*Carbohydrates - 4 calories per gram
+•Protein – 4 calories per gram
+•Fats – 9 calories per gram
+*/
     private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
         List<Recipe> myRecipes = recipeDao.getAll();
         List<Recipe> onlyOne = new ArrayList<>();

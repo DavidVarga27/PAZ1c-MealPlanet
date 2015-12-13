@@ -23,7 +23,8 @@ public class AddForm extends javax.swing.JFrame {
     private String text;
 
     public AddForm() {
-
+/////////tu je pripojenie na databazu,,,treba spravit dajak zeby to tu nebolo ????
+        
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost/mealplanet");
         dataSource.setUser("root");

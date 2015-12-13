@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import javax.swing.JOptionPane;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -303,6 +304,7 @@ public class AddForm extends javax.swing.JFrame {
         List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
 ///////////////////toto treba dat do nejakeho MySql triedy, ale neviem ktorej asi do Mysqlrecipedao
         Recipe recipe = new Recipe();
+        
         String name = recipeNameTextField.getText();
         int prepTime = (int) prepTimeSpinner.getValue();
         String steps = stepsTextField.getText();
@@ -310,6 +312,23 @@ public class AddForm extends javax.swing.JFrame {
         int type = mealtypeComboBox.getSelectedIndex();
         long newIdr = recipes.get(0).getIdR() + 1;
 
+        if (name.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Recipe name requested");
+            return;
+        }
+        if (prepTime == 0) {
+            JOptionPane.showMessageDialog(this, "Preparation time should be more than 0 minutes");
+            return;
+        }
+        if (steps.trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Describe your recipe");
+            return;
+        }
+        if (type == 0) {
+            JOptionPane.showMessageDialog(this, "Meal type requested");
+            return;
+        }
+        
         recipe.setName(name);
         recipe.setSteps(steps);
         recipe.setRating(rating);

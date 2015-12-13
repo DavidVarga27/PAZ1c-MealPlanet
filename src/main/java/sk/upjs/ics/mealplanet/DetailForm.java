@@ -1,9 +1,7 @@
 package sk.upjs.ics.mealplanet;
 
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JScrollPane;
 
 public class DetailForm extends javax.swing.JFrame {
 
@@ -17,7 +15,7 @@ public class DetailForm extends javax.swing.JFrame {
 
         stepsTextArea.setEditable(false);
         stepsTextArea.setCaretPosition(0);
-        // JScrollPane scrollPane = new JScrollPane(stepsTextArea);
+        
     }
 
     public void setRecipe(Recipe recipe) {
@@ -41,6 +39,7 @@ public class DetailForm extends javax.swing.JFrame {
         ratingLabel.setText("Rating: " + recipe.getRating());
         ingredientsList.setListData(addedIngredients.toArray());
         stepsTextArea.setText(recipe.getSteps());
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -81,6 +80,11 @@ public class DetailForm extends javax.swing.JFrame {
         jScrollPane3.setViewportView(stepsTextArea);
 
         editRecipeButton.setText("Edit recipe");
+        editRecipeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editRecipeButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -139,6 +143,13 @@ public class DetailForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void editRecipeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRecipeButtonActionPerformed
+        EditForm editForm = new EditForm();
+        editForm.setRecipeToForm(this.recipe);
+        editForm.setVisible(true);
+        editForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_editRecipeButtonActionPerformed
 
     public static void main(String args[]) {
 

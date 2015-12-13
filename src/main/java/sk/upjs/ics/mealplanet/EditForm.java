@@ -10,9 +10,10 @@ import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class AddForm extends javax.swing.JFrame {
+public class EditForm extends javax.swing.JFrame {
 
     private RecipeDao recipeDao = RecipeDaoFactory.INSTANCE.getRecipeDao();
+
     private List<Ingredient> ingredients = new ArrayList<>();// ###########vsetky ingrediencie z databazy 
     private Map<Ingredient, String> addedIngredients = new HashMap<Ingredient, String>();
     private List<MealType> mealTypes = new ArrayList<>();
@@ -20,10 +21,12 @@ public class AddForm extends javax.swing.JFrame {
     private List<String> addedIngredientsNames = new ArrayList<String>();//na pracu s vybratymi ingredienciami v jListe
     private List<Relation> relations = new ArrayList<>();
     private String text;
+    ///////////////////////////////////toto je ine ako v addForm
+    private Recipe recipe;
+    private RelationDao relationDao = RelationDaoFactory.INSTANCE.getRelationDao();
+    //////////////////////////////////
 
-    public AddForm() {
-/////////tu je pripojenie na databazu,,,treba spravit dajak zeby to tu nebolo ????
-        
+    public EditForm() {
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost/mealplanet");
         dataSource.setUser("root");
@@ -69,6 +72,33 @@ public class AddForm extends javax.swing.JFrame {
 
         ingredientComboBox.setEditable(true);
         AutoCompleteDecorator.decorate(ingredientComboBox);
+
+    }
+
+    public void setRecipeToForm(Recipe recipe) {
+        this.recipe = recipe;
+        List<Relation> relations = relationDao.getMatching(recipe.getIdR());
+      //  List<String> addedIngredients = new ArrayList<>();
+        List<Ingredient> ingredients = recipe.getIngredients();
+System.out.println(this.recipe.getIdR());
+        for (Relation relation : relations) {
+            for (Ingredient ingredient : ingredients) {
+                if (relation.idI == ingredient.getIdI()) {
+                    addedIngredients.put(ingredient, relation.getAmount());
+                    addedIngredientsNames.add(ingredient.getName() + " - " + relation.getAmount());
+                }
+
+            }
+
+        }
+        addedIngredientsList.setListData(addedIngredientsNames.toArray());
+
+        recipeNameTextField.setText(recipe.getName());
+        mealtypeComboBox.setSelectedIndex(recipe.getType());
+        prepTimeSpinner.setValue(recipe.getPrepTime());
+        stepsTextField.setText(recipe.getSteps());
+        ratingSlider.setValue(recipe.getRating());
+
     }
 
     @SuppressWarnings("unchecked")
@@ -76,43 +106,39 @@ public class AddForm extends javax.swing.JFrame {
     private void initComponents() {
         bindingGroup = new org.jdesktop.beansbinding.BindingGroup();
 
-        recipeNameLabel = new javax.swing.JLabel();
-        recipeNameTextField = new javax.swing.JTextField();
-        prepTimeLabel = new javax.swing.JLabel();
-        minutesLabel = new javax.swing.JLabel();
-        mealtypeComboBox = new javax.swing.JComboBox();
-        addIngredientButton = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        ingredientComboBox = new javax.swing.JComboBox();
-        amountTextField = new javax.swing.JTextField();
+        prepTimeSpinner = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         addedIngredientsList = new javax.swing.JList();
+        addNewIngredientButton = new javax.swing.JButton();
+        ingredientComboBox = new javax.swing.JComboBox();
+        amountTextField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        addIngredientButton = new javax.swing.JButton();
+        saveRecipeButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        stepsTextField = new javax.swing.JTextField();
+        minutesLabel = new javax.swing.JLabel();
+        stepsLabel = new javax.swing.JLabel();
+        mealtypeComboBox = new javax.swing.JComboBox();
         deleteIngredientButton = new javax.swing.JButton();
         ratingSlider = new javax.swing.JSlider();
+        prepTimeLabel = new javax.swing.JLabel();
+        recipeNameTextField = new javax.swing.JTextField();
+        recipeNameLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        addRecipeButton = new javax.swing.JButton();
-        stepsTextField = new javax.swing.JTextField();
-        stepsLabel = new javax.swing.JLabel();
-        prepTimeSpinner = new javax.swing.JSpinner();
-        addNewIngredientButton = new javax.swing.JButton();
+        cancelButton = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        recipeNameLabel.setText("Recipe name:");
+        jScrollPane1.setViewportView(addedIngredientsList);
 
-        prepTimeLabel.setText("Preparation time: ");
-
-        minutesLabel.setText("minutes");
-
-        addIngredientButton.setText("Add ingredient");
-        addIngredientButton.addActionListener(new java.awt.event.ActionListener() {
+        addNewIngredientButton.setText("Add new ingredient");
+        addNewIngredientButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addIngredientButtonActionPerformed(evt);
+                addNewIngredientButtonActionPerformed(evt);
             }
         });
-
-        jLabel1.setText("Ingredients:");
 
         amountTextField.setText("amount");
         amountTextField.addFocusListener(new java.awt.event.FocusAdapter() {
@@ -121,7 +147,25 @@ public class AddForm extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(addedIngredientsList);
+        addIngredientButton.setText("Add ingredient");
+        addIngredientButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addIngredientButtonActionPerformed(evt);
+            }
+        });
+
+        saveRecipeButton.setText("Save");
+        saveRecipeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveRecipeButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("Ingredients:");
+
+        minutesLabel.setText("minutes");
+
+        stepsLabel.setText("Steps:");
 
         deleteIngredientButton.setText("Delete ingredient");
         deleteIngredientButton.addActionListener(new java.awt.event.ActionListener() {
@@ -130,26 +174,16 @@ public class AddForm extends javax.swing.JFrame {
             }
         });
 
+        prepTimeLabel.setText("Preparation time: ");
+
+        recipeNameLabel.setText("Recipe name:");
+
         jLabel2.setText("Rating:");
 
-        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, ratingSlider, org.jdesktop.beansbinding.ELProperty.create("${value}"), jLabel3, org.jdesktop.beansbinding.BeanProperty.create("text"));
+        cancelButton.setText("Cancel");
+
+        org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, ratingSlider, org.jdesktop.beansbinding.ELProperty.create("${value}"), jLabel4, org.jdesktop.beansbinding.BeanProperty.create("text"));
         bindingGroup.addBinding(binding);
-
-        addRecipeButton.setText("Add recipe");
-        addRecipeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addRecipeButtonActionPerformed(evt);
-            }
-        });
-
-        stepsLabel.setText("Steps:");
-
-        addNewIngredientButton.setText("Add new ingredient");
-        addNewIngredientButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewIngredientButtonActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,57 +193,59 @@ public class AddForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(stepsTextField)
-                        .addGap(240, 240, 240))
+                        .addComponent(stepsLabel)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(recipeNameLabel)
-                                .addGap(42, 42, 42)
-                                .addComponent(recipeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(stepsTextField)
+                                .addGap(101, 101, 101)
+                                .addComponent(saveRecipeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(jLabel1)
-                                            .addGap(285, 285, 285)
-                                            .addComponent(amountTextField)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(prepTimeLabel)
-                                                    .addGap(18, 18, 18)
-                                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(ingredientComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                        .addGroup(layout.createSequentialGroup()
-                                                            .addComponent(prepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                            .addComponent(minutesLabel)
-                                                            .addGap(0, 0, Short.MAX_VALUE))))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                    .addComponent(mealtypeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addGap(0, 0, Short.MAX_VALUE))
-                                                .addComponent(jScrollPane1))
-                                            .addGap(101, 101, 101)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel1)
+                                        .addGap(285, 285, 285)
+                                        .addComponent(amountTextField)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jScrollPane1)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                        .addComponent(prepTimeLabel)
+                                                        .addGap(18, 18, 18)
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                            .addGroup(layout.createSequentialGroup()
+                                                                .addComponent(prepTimeSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(minutesLabel))
+                                                            .addComponent(ingredientComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addComponent(mealtypeComboBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addGap(101, 101, 101))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addComponent(jLabel2)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(30, 30, 30)
+                                        .addGap(18, 18, 18)
                                         .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(142, 142, 142)))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(addRecipeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(deleteIngredientButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(addIngredientButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(addNewIngredientButton))))
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(stepsLabel)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(addNewIngredientButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(cancelButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(recipeNameLabel)
+                                .addGap(42, 42, 42)
+                                .addComponent(recipeNameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -240,28 +276,34 @@ public class AddForm extends javax.swing.JFrame {
                         .addComponent(deleteIngredientButton, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addNewIngredientButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(stepsLabel)
                 .addGap(12, 12, 12)
-                .addComponent(stepsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(stepsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(saveRecipeButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel2)
-                                .addComponent(jLabel3)))
-                        .addGap(27, 27, 27))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(addRecipeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel4))
+                    .addComponent(cancelButton)
+                    .addComponent(ratingSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
 
         bindingGroup.bind();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addNewIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewIngredientButtonActionPerformed
+        AddIngredientForm addForm = new AddIngredientForm();
+        addForm.setVisible(true);
+        addForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_addNewIngredientButtonActionPerformed
 
     private void amountTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountTextFieldFocusGained
         amountTextField.setText(null);
@@ -279,36 +321,18 @@ public class AddForm extends javax.swing.JFrame {
 
         }
         addedIngredientsList.setListData(addedIngredientsNames.toArray());
-
     }//GEN-LAST:event_addIngredientButtonActionPerformed
 
-    private void deleteIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteIngredientButtonActionPerformed
-        for (Ingredient ingredient : addedIngredients.keySet()) {
-            String ingredAndAmount = ingredient.getName() + " - " + addedIngredients.get(ingredient);
-            if (ingredAndAmount.equals(addedIngredientsList.getSelectedValue())) {
-                addedIngredients.remove(ingredient);
-                addedIngredientsNames.remove(ingredAndAmount);
-                addedIngredientsList.setListData(addedIngredientsNames.toArray());
-                return;
-            }
-
-        }
-    }//GEN-LAST:event_deleteIngredientButtonActionPerformed
-
-    private void addRecipeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRecipeButtonActionPerformed
-        String sql = "select * from recipes where idr >= all (select max(idr) from recipes)";
-
-        BeanPropertyRowMapper<Recipe> mapper = BeanPropertyRowMapper.newInstance(Recipe.class);//tovaren pre rowmapper
-        List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
-///////////////////toto treba dat do nejakeho MySql triedy, ale neviem ktorej asi do Mysqlrecipedao
-        Recipe recipe = new Recipe();
+    private void saveRecipeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveRecipeButtonActionPerformed
+        relationDao.delete(recipe.getIdR()); //vymaze vsetky predosle relations aby nahradil novymi
+        
+        Recipe alteredRecipe = new Recipe();
         
         String name = recipeNameTextField.getText();
         int prepTime = (int) prepTimeSpinner.getValue();
         String steps = stepsTextField.getText();
         int rating = ratingSlider.getValue();
         int type = mealtypeComboBox.getSelectedIndex();
-        long newIdr = recipes.get(0).getIdR() + 1;
 
         if (name.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Recipe name requested");
@@ -326,44 +350,50 @@ public class AddForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Meal type requested");
             return;
         }
-        
-        if (addedIngredients.isEmpty()){
+
+        if (addedIngredients.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Pick at least one ingredient.");
         }
-        
-        recipe.setName(name);
-        recipe.setSteps(steps);
-        recipe.setRating(rating);
-        recipe.setPrepTime(prepTime);
-        recipe.setType(type);
-        recipe.setIdR(newIdr);
 
-        recipeDao.add(recipe);/// pridanie receptu
+        alteredRecipe.setName(name);
+        alteredRecipe.setSteps(steps);
+        alteredRecipe.setRating(rating);
+        alteredRecipe.setPrepTime(prepTime);
+        alteredRecipe.setType(type);
+        alteredRecipe.setIdR(recipe.getIdR());  //// lebo ostava predosle idR
+
+        recipeDao.update(alteredRecipe);/// update receptu
 
         for (Ingredient ingredient : addedIngredients.keySet()) {
             Relation relation = new Relation();
-            relation.setAmount(addedIngredients.get(ingredient));
+            relation.setAmount(addedIngredients.get(ingredient));//addedIngredients.get(ingredient)
             relation.setIdI(ingredient.getIdI());
-            relation.setIdR(newIdr);
+            relation.setIdR(recipe.getIdR());
 
-            RelationDao relationDao = RelationDaoFactory.INSTANCE.getRelationDao();
+            
             relationDao.addRelation(relation);
         }
 
+    }//GEN-LAST:event_saveRecipeButtonActionPerformed
 
-    }//GEN-LAST:event_addRecipeButtonActionPerformed
+    private void deleteIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteIngredientButtonActionPerformed
+        for (Ingredient ingredient : addedIngredients.keySet()) {
+            String ingredAndAmount = ingredient.getName() + " - " + addedIngredients.get(ingredient);
+            if (ingredAndAmount.equals(addedIngredientsList.getSelectedValue())) {
+                addedIngredients.remove(ingredient);
+                addedIngredientsNames.remove(ingredAndAmount);
+                addedIngredientsList.setListData(addedIngredientsNames.toArray());
+                return;
+            }
 
-    private void addNewIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewIngredientButtonActionPerformed
-       AddIngredientForm addForm = new AddIngredientForm();
-        addForm.setVisible(true);
-        addForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_addNewIngredientButtonActionPerformed
+        }
+    }//GEN-LAST:event_deleteIngredientButtonActionPerformed
 
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AddForm().setVisible(true);
+                new EditForm().setVisible(true);
             }
         });
     }
@@ -371,14 +401,15 @@ public class AddForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addIngredientButton;
     private javax.swing.JButton addNewIngredientButton;
-    private javax.swing.JButton addRecipeButton;
     private javax.swing.JList addedIngredientsList;
     private javax.swing.JTextField amountTextField;
+    private javax.swing.JButton cancelButton;
     private javax.swing.JButton deleteIngredientButton;
     private javax.swing.JComboBox ingredientComboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JComboBox mealtypeComboBox;
     private javax.swing.JLabel minutesLabel;
@@ -387,6 +418,7 @@ public class AddForm extends javax.swing.JFrame {
     private javax.swing.JSlider ratingSlider;
     private javax.swing.JLabel recipeNameLabel;
     private javax.swing.JTextField recipeNameTextField;
+    private javax.swing.JButton saveRecipeButton;
     private javax.swing.JLabel stepsLabel;
     private javax.swing.JTextField stepsTextField;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;

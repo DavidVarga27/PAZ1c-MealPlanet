@@ -19,7 +19,7 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
 
     private String steps; //
     
-    private long rating; /// tu asi staci integer
+    private int rating; /// tu asi staci integer
 
     public MealType getMealtype() {
         return mealtype;
@@ -40,11 +40,11 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
     }
     
 
-    public long getRating() {
+    public int getRating() {
         return rating;
     }
 
-    public void setRating(long rating) {
+    public void setRating(int rating) {
         this.rating = rating;
     }
 

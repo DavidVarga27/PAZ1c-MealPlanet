@@ -15,5 +15,6 @@ public interface RelationDao {
     public void addRelation(Relation relation);
     public void deleteRelation(Relation relation);
     public List<Relation> getMatching(long idR);
+    public void delete(long idR);
     
 }

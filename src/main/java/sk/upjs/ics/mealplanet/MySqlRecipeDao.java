@@ -22,8 +22,8 @@ public class MySqlRecipeDao implements RecipeDao {
 
     @Override
     public void add(Recipe recipe) {
-        String sql ="INSERT INTO recipes VALUES(?,?,?,?,?,?)";
-        jdbcTemplate.update(sql,recipe.getIdR(),recipe.getName(),recipe.getPrepTime(),recipe.getSteps(),recipe.getRating(),recipe.getType());
+        String sql = "INSERT INTO recipes VALUES(?,?,?,?,?,?)";
+        jdbcTemplate.update(sql, recipe.getIdR(), recipe.getName(), recipe.getPrepTime(), recipe.getSteps(), recipe.getRating(), recipe.getType());
     }
 
     @Override
@@ -33,7 +33,8 @@ public class MySqlRecipeDao implements RecipeDao {
 
     @Override
     public void update(Recipe recipe) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE recipes SET name = ?, prepTime=?,steps=?,rating=?,type=? where idR=?;";
+        jdbcTemplate.update(sql,recipe.getName(),recipe.getPrepTime(),recipe.getSteps(),recipe.getRating(),recipe.getType(),recipe.getIdR());
     }
 
     @Override

@@ -49,4 +49,10 @@ public class MySqlRelationDao implements RelationDao {
         return relations;
     }
 
+    @Override
+    public void delete(long idR) {// tu nie je update, v databaze sa vymazu a napisu nanovo
+        String sql = "DELETE FROM relations where idR = ?";
+        jdbcTemplate.update(sql,idR); // idReceptu
+    }
+
 }

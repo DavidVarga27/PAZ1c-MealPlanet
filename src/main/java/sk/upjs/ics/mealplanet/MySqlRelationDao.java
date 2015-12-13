@@ -1,6 +1,9 @@
 package sk.upjs.ics.mealplanet;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 public class MySqlRelationDao implements RelationDao {
@@ -17,14 +20,33 @@ public class MySqlRelationDao implements RelationDao {
 
     @Override
     public void addRelation(Relation relation) {
-            String sql ="INSERT INTO relations VALUES(?,?,?,?)";
-        jdbcTemplate.update(sql,null,relation.getIdR(),relation.getIdI(),relation.getAmount());
-    
+        String sql = "INSERT INTO relations VALUES(?,?,?,?)";
+        jdbcTemplate.update(sql, null, relation.getIdR(), relation.getIdI(), relation.getAmount());
+
     }
 
     @Override
     public void deleteRelation(Relation relation) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public List<Relation> getAll() {
+        String sql = "SELECT * FROM relations";
+        BeanPropertyRowMapper<Relation> mapper = BeanPropertyRowMapper.newInstance(Relation.class);//tovaren pre rowmapper
+        List<Relation> relations = jdbcTemplate.query(sql, mapper);
+        return relations;
+    }
+
+    @Override
+    public List<Relation> getMatching(long idR) {
+        List<Relation> relations = new ArrayList<>();
+        for (Relation relation : this.getAll()) {
+            if (relation.idR == idR) {
+                relations.add(relation);
+            }
+        }
+
+        return relations;
     }
 
 }

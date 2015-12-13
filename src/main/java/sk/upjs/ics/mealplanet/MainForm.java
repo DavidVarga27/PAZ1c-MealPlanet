@@ -211,14 +211,18 @@ public class MainForm extends javax.swing.JFrame {
     private void foundRecipesListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foundRecipesListMouseClicked
         if (evt.getClickCount() == 2) {
             ////////////tu treba naprogramovat ze sa zobrazi detail receptu
-            JOptionPane.showMessageDialog(this, "patkan");
-            return;
+            DetailForm detailForm = new DetailForm();
+            List<Recipe> recipe = recipeDao.getMatchingName(foundRecipesList.getSelectedValue().toString());
+
+            detailForm.setRecipe(recipe.get(0));
+            detailForm.setVisible(true);
+            detailForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         }
     }//GEN-LAST:event_foundRecipesListMouseClicked
-/*Carbohydrates - 4 calories per gram
-•Protein – 4 calories per gram
-•Fats – 9 calories per gram
-*/
+    /*Carbohydrates - 4 calories per gram
+     •Protein – 4 calories per gram
+     •Fats – 9 calories per gram
+     */
     private void randomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_randomButtonActionPerformed
         List<Recipe> myRecipes = recipeDao.getAll();
         List<Recipe> onlyOne = new ArrayList<>();

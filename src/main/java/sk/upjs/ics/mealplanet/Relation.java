@@ -3,16 +3,16 @@ package sk.upjs.ics.mealplanet;
 
 
 public class Relation {
-    int id;
+    long id;
     long idR;
-    int idI;
+    long idI;
     String amount;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -24,11 +24,11 @@ public class Relation {
         this.idR = idR;
     }
 
-    public int getIdI() {
+    public long getIdI() {
         return idI;
     }
 
-    public void setIdI(int idI) {
+    public void setIdI(long idI) {
         this.idI = idI;
     }
 

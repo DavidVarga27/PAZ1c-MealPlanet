@@ -329,6 +329,10 @@ public class AddForm extends javax.swing.JFrame {
             return;
         }
         
+        if (addedIngredients.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Pick at least one ingredient.");
+        }
+        
         recipe.setName(name);
         recipe.setSteps(steps);
         recipe.setRating(rating);

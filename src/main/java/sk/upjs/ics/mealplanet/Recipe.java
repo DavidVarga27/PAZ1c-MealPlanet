@@ -1,7 +1,7 @@
 package sk.upjs.ics.mealplanet;
 
 import java.util.List;
-import java.util.Map;
+
 
 public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienciou
 
@@ -19,7 +19,7 @@ public class Recipe {// toto neni celkovy recept ale recept s jednou ingredienci
 
     private String steps; //
     
-    private long rating;
+    private long rating; /// tu asi staci integer
 
     public MealType getMealtype() {
         return mealtype;

@@ -23,7 +23,7 @@ public class AddForm extends javax.swing.JFrame {
 
     public AddForm() {
 /////////tu je pripojenie na databazu,,,treba spravit dajak zeby to tu nebolo ????
-        
+
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL("jdbc:mysql://localhost/mealplanet");
         dataSource.setUser("root");
@@ -58,17 +58,7 @@ public class AddForm extends javax.swing.JFrame {
             mealTypes.add(mealType);
             mealtypeComboBox.addItem(mealType.getName());
         }
-        String sql = "SELECT * FROM ingredients ORDER BY ingredients.name";
-        BeanPropertyRowMapper<Ingredient> mapper = BeanPropertyRowMapper.newInstance(Ingredient.class);//tovaren
-        ingredients = jdbcTemplate.query(sql, mapper);
-        ingredientComboBox.addItem("");
-
-        for (Ingredient ingredient : ingredients) {
-            ingredientComboBox.addItem(ingredient.getName());
-        }
-
-        ingredientComboBox.setEditable(true);
-        AutoCompleteDecorator.decorate(ingredientComboBox);
+        this.setIngredientsCombobox();
     }
 
     @SuppressWarnings("unchecked")
@@ -263,6 +253,18 @@ public class AddForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void setIngredientsCombobox() {
+        String sql = "SELECT * FROM ingredients ORDER BY ingredients.name";
+        BeanPropertyRowMapper<Ingredient> mapper = BeanPropertyRowMapper.newInstance(Ingredient.class);//tovaren
+        ingredients = jdbcTemplate.query(sql, mapper);
+        ingredientComboBox.addItem("");
+        for (Ingredient ingredient : ingredients) {
+            ingredientComboBox.addItem(ingredient.getName());
+        }
+        ingredientComboBox.setEditable(true);
+        AutoCompleteDecorator.decorate(ingredientComboBox);
+    }
+
     private void amountTextFieldFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_amountTextFieldFocusGained
         amountTextField.setText(null);
     }//GEN-LAST:event_amountTextFieldFocusGained
@@ -302,7 +304,7 @@ public class AddForm extends javax.swing.JFrame {
         List<Recipe> recipes = jdbcTemplate.query(sql, mapper);
 ///////////////////toto treba dat do nejakeho MySql triedy, ale neviem ktorej asi do Mysqlrecipedao
         Recipe recipe = new Recipe();
-        
+
         String name = recipeNameTextField.getText();
         int prepTime = (int) prepTimeSpinner.getValue();
         String steps = stepsTextField.getText();
@@ -326,11 +328,11 @@ public class AddForm extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Meal type requested");
             return;
         }
-        
-        if (addedIngredients.isEmpty()){
+
+        if (addedIngredients.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Pick at least one ingredient.");
         }
-        
+
         recipe.setName(name);
         recipe.setSteps(steps);
         recipe.setRating(rating);
@@ -354,9 +356,12 @@ public class AddForm extends javax.swing.JFrame {
     }//GEN-LAST:event_addRecipeButtonActionPerformed
 
     private void addNewIngredientButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewIngredientButtonActionPerformed
-       AddIngredientForm addForm = new AddIngredientForm();
+        Ingredient newIngredient = new Ingredient();
+        AddIngredientDialog addForm = new AddIngredientDialog(this, true, newIngredient);
         addForm.setVisible(true);
         addForm.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        ingredients.add(newIngredient);
+        setIngredientsCombobox();
     }//GEN-LAST:event_addNewIngredientButtonActionPerformed
 
     public static void main(String args[]) {
